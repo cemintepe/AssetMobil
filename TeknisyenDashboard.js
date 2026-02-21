@@ -14,7 +14,9 @@ export default function TechDashboard({ user, onLogout, onSelectRequest }) {
 
   const statusOptions = [
     { label: 'Bekleyenler', value: 'PENDING' },
+    { label: 'İptal Edilenler', value: 'CANCELLED' },
     { label: 'Tamamlananlar', value: 'COMPLETED' },
+
   ];
 
   useEffect(() => {
@@ -91,7 +93,7 @@ export default function TechDashboard({ user, onLogout, onSelectRequest }) {
               style={[styles.statusBtn, status === opt.value && styles.statusBtnActive]}
               onPress={() => setStatus(opt.value)}
             >
-              <Text style={[styles.statusBtnText, status === opt.value && styles.statusBtnTextActive]}>
+              <Text style={[styles.statusBtnText, status === opt.value && styles.statusBtnTextActive, { fontSize: 11 }]}>
                 {opt.label}
               </Text>
             </TouchableOpacity>
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
   filterSection: { padding: 20, paddingBottom: 10 },
   filterLabel: { fontSize: 10, fontWeight: 'bold', color: '#9ca3af', marginBottom: 10, letterSpacing: 1 },
   statusRow: { flexDirection: 'row', gap: 10 },
-  statusBtn: { flex: 1, padding: 12, backgroundColor: 'white', borderRadius: 15, borderWidth: 1, borderColor: '#e5e7eb', alignItems: 'center' },
+  statusBtn: { flex: 1, paddingVertical: 12, paddingHorizontal: 4, backgroundColor: 'white', borderRadius: 15, borderWidth: 1, borderColor: '#e5e7eb', alignItems: 'center' },
   statusBtnActive: { backgroundColor: '#004a99', borderColor: '#004a99' },
   statusBtnText: { fontSize: 13, fontWeight: 'bold', color: '#374151' },
   statusBtnTextActive: { color: 'white' },
