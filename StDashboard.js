@@ -4,7 +4,7 @@ import {
   FlatList, ActivityIndicator, Alert, SafeAreaView, Modal 
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { initDB, saveDealersToLocal, getLocalDealers } from './Database';
+import { initDB, saveDealersToLocal, saveCustomersToLocal, getLocalDealers, getLocalCustomersByDealer } from './Database';
 
 export default function StDashboard({ user, onLogout, onSelectCustomer }) {
   const [dealers, setDealers] = useState([]);
@@ -50,27 +50,43 @@ useEffect(() => {
 const fetchDealers = async () => {
   setLoadingDealers(true);
   try {
-    console.log("📡 B/D Tablosu İndiriliyor...");
-    const response = await fetch(`https://isletmem.online/asset/api/my-dealers?username=${user.username}`);
-    const data = await response.json();
-    
-    // Loglarımızı görelim
-    console.log(`✅ API'den Gelen B/D Sayısı: ${data.length}`);
-    console.log(JSON.stringify(data, null, 2));
+    console.log(`🚀 SYNC Başlatıldı: Kullanıcı -> ${user.username}`);
 
-    // 1. Veriyi SQLite'a o kullanıcının adıyla işle (Parametreli)
-    await saveDealersToLocal(data, user.username);
+    // 1. Bayileri Çek
+    const dealerRes = await fetch(`https://isletmem.online/asset/api/my-dealers?username=${user.username}`);
+    const dealerData = await dealerRes.json();
+    await saveDealersToLocal(dealerData, user.username);
     
-    // 2. Sadece o kullanıcıya ait olanları SQLite'dan geri çek (Parametreli)
-    const filteredData = await getLocalDealers(user.username);
+    // 2. Müşterileri Çek (Döngü ile)
+    let allCustomers = [];
+    console.log("📦 Bayi bazlı müşteri toplama işlemi başladı...");
+
+    for (const dealer of dealerData) {
+      const custRes = await fetch(`https://isletmem.online/asset/api/my-customers?username=${user.username}&dealer_code=${dealer.dealer_code}`);
+      const custData = await custRes.json();
+      
+      // Log: Hangi bayiden kaç müşteri geldi görelim
+      console.log(`🔹 Bayi: ${dealer.dealer_code} | Gelen Müşteri: ${custData.length}`);
+      
+      allCustomers = [...allCustomers, ...custData];
+    }
+
+    // 3. SQLite'a Topluca Kaydet
+    await saveCustomersToLocal(allCustomers, user.username);
     
-    // 3. State'i güncelle
-    setDealers(filteredData);
+    // Log: Sonuç özeti
+    console.log("🏁 Senkronizasyon Başarıyla Tamamlandı.");
+    console.log(`📊 Toplam Bayi: ${dealerData.length} | Toplam Müşteri: ${allCustomers.length}`);
+
+    // UI Güncelle
+    const localDealers = await getLocalDealers(user.username);
+    setDealers(localDealers);
+
+    Alert.alert('Senkronizasyon Başarılı', `${allCustomers.length} müşteri cihazınıza indirildi.`);
     
-    Alert.alert('Başarılı', 'Veriler cihazla senkronize edildi.');
   } catch (error) {
-    console.log("❌ Sync Hatası:", error);
-    Alert.alert('Hata', 'İnternet bağlantısını kontrol edin.');
+    console.log("❌ SYNC Hatası:", error);
+    Alert.alert('Hata', 'Veriler çekilirken bir sorun oluştu.');
   } finally {
     setLoadingDealers(false);
   }
@@ -81,10 +97,11 @@ const fetchDealers = async () => {
     setShowDealerModal(false);
     setLoadingCustomers(true);
     try {
-      const response = await fetch(`https://isletmem.online/asset/api/my-customers?username=${user.username}&dealer_code=${dealer.dealer_code}`);
-      const data = await response.json();
+      
+      const data = await getLocalCustomersByDealer(dealer.dealer_code, user.username);
       setCustomers(data);
       setFilteredCustomers(data);
+
     } catch (error) {
       Alert.alert('Hata', 'Müşteri listesi alınamadı');
     } finally {

@@ -1,7 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 
 // Veritabanını açıyoruz
-const db = SQLite.openDatabaseSync('assets.db');
+const db = SQLite.openDatabaseSync('assets_v1.db');
 
 export const initDB = async () => {
   try {
@@ -14,8 +14,18 @@ export const initDB = async () => {
         name TEXT,
         st_usernames TEXT
       );
+      CREATE TABLE IF NOT EXISTS customers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        customer_code TEXT UNIQUE,
+        dealer_code TEXT,
+        st_username TEXT,
+        region_code TEXT,
+        name TEXT,
+        address TEXT,
+        updated_at TEXT
+      );
     `);
-    console.log("✅ Veritabanı ve Tablo Hazır");
+    console.log("✅ B/D ve Müşteri Veritabanı ve Tablo Hazır");
   } catch (error) {
     console.error("❌ DB Başlatma Hatası:", error);
   }
@@ -43,6 +53,40 @@ export const getLocalDealers = async (loggedInUser) => {
     return await db.getAllAsync('SELECT * FROM dealers WHERE st_usernames = ? ORDER BY name ASC', [loggedInUser]);
   } catch (error) {
     console.error("❌ Okuma Hatası:", error);
+    return [];
+  }
+};
+
+// Müşterileri topluca kaydeden fonksiyon
+export const saveCustomersToLocal = async (customers, loggedInUser) => {
+  try {
+    // Bu kullanıcıya ait tüm müşterileri silip tazeliyoruz
+    await db.runAsync('DELETE FROM customers WHERE st_username = ?', [loggedInUser]);
+    
+    for (const cust of customers) {
+      await db.runAsync(
+        `INSERT OR REPLACE INTO customers 
+        (customer_code, dealer_code, st_username, region_code, name, address, updated_at) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [cust.customer_code, cust.dealer_code, cust.st_username, cust.region_code, cust.name, cust.address, cust.updated_at]
+      );
+    }
+    console.log(`✅ ${loggedInUser} için toplam ${customers.length} müşteri SQLite'a yüklendi`);
+  } catch (error) {
+    console.error("❌ Müşteri Kayıt Hatası:", error);
+  }
+};
+
+// Belirli bir bayiye ait müşterileri getiren fonksiyon
+export const getLocalCustomersByDealer = async (dealerCode, loggedInUser) => {
+  try {
+    return await db.getAllAsync(
+      'SELECT * FROM customers WHERE dealer_code = ? AND st_username = ? ORDER BY name ASC', 
+      [dealerCode, loggedInUser]
+    );
+    return rows;
+  } catch (error) {
+    console.error("❌ Müşteri Okuma Hatası:", error);
     return [];
   }
 };
