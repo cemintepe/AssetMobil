@@ -1,7 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 
 // Veritabanını açıyoruz
-const db = SQLite.openDatabaseSync('maya_assets.db');
+const db = SQLite.openDatabaseSync('assets.db');
 
 export const initDB = async () => {
   try {
@@ -11,7 +11,8 @@ export const initDB = async () => {
       CREATE TABLE IF NOT EXISTS dealers (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         dealer_code TEXT UNIQUE,
-        name TEXT
+        name TEXT,
+        st_usernames TEXT
       );
     `);
     console.log("✅ Veritabanı ve Tablo Hazır");
@@ -21,25 +22,25 @@ export const initDB = async () => {
 };
 
 // API'den gelen veriyi topluca kaydeden fonksiyon
-export const saveDealersToLocal = async (dealers) => {
+export const saveDealersToLocal = async (dealers, loggedInUser) => {
   try {
+    await db.runAsync('DELETE FROM dealers WHERE st_usernames = ?', [loggedInUser]);
     for (const dealer of dealers) {
       await db.runAsync(
-        'INSERT OR REPLACE INTO dealers (dealer_code, name) VALUES (?, ?)',
-        [dealer.dealer_code, dealer.name]
+        'INSERT OR REPLACE INTO dealers (dealer_code, name, st_usernames) VALUES (?, ?, ?)',
+        [dealer.dealer_code, dealer.name, loggedInUser]
       );
     }
-    console.log("💾 Bayiler SQLite'a kaydedildi.");
+    console.log("${loggedInUser} 💾 Bayiler SQLite'a kaydedildi."); 
   } catch (error) {
     console.error("❌ Kayıt Hatası:", error);
   }
 };
 
 // SQLite'daki bayileri çeken fonksiyon
-export const getLocalDealers = async () => {
+export const getLocalDealers = async (loggedInUser) => {
   try {
-    const allRows = await db.getAllAsync('SELECT * FROM dealers ORDER BY name ASC');
-    return allRows;
+    return await db.getAllAsync('SELECT * FROM dealers WHERE st_usernames = ? ORDER BY name ASC', [loggedInUser]);
   } catch (error) {
     console.error("❌ Okuma Hatası:", error);
     return [];

@@ -26,37 +26,55 @@ export default function StDashboard({ user, onLogout, onSelectCustomer }) {
   const { day, month } = getCurrentDate(); 
 
   // Otomatik yükleme kapalı, sadece butonla tetiklenecek
-  useEffect(() => {
-    const setup = async () => {
-      await initDB();
-      const localData = await getLocalDealers();
-      if (localData.length > 0) {
-        setDealers(localData);
-        console.log("SQLite Verileri yüklendi:", localData.length);
-      }
-    };
-    setup();
-  }, []);
-
-  const fetchDealers = async () => {
-    setLoadingDealers(true);
-    try {
-      console.log("B/D Tablosu İndiriliyor...");
-      const response = await fetch(`https://isletmem.online/asset/api/my-dealers?username=${user.username}`);
-      const data = await response.json();
-      console.log(`B/D'ler İndirildi: ${data.length}`);
-      console.log(JSON.stringify(data, null, 2));
-      await saveDealersToLocal(data);
-      const updatedLocalData = await getLocalDealers();
-      setDealers(updatedLocalData);
-      Alert.alert('Başarılı', 'Veriler cihazla senkronize edildi.');
-    } catch (error) {
-      console.log("❌ Sync Hatası:", error);
-      Alert.alert('Hata', 'İnternet bağlantısını kontrol edin.');
-    } finally {
-      setLoadingDealers(false);
+useEffect(() => {
+  const loadInitialData = async () => {
+    // 1. Önce DB'yi hazırla (Tablo yoksa oluşturur)
+    await initDB();
+    
+    // 2. Login olan bu kullanıcıya ait yerel veriyi kontrol et
+    const localData = await getLocalDealers(user.username);
+    
+    if (localData && localData.length > 0) {
+      // Veri varsa state'e doldur, kullanıcı direkt listeyi görsün
+      setDealers(localData);
+      console.log(`📂 ${user.username} için yerel veriler yüklendi: ${localData.length} adet.`);
+    } else {
+      // Veri yoksa sadece log bas, kullanıcı SYNC butonuna basacaktır
+      console.log(`ℹ️ ${user.username} için henüz yerel veri yok.`);
     }
   };
+
+  loadInitialData();
+}, [user.username]); // Kullanıcı değişirse (logout/login) tekrar kontrol et
+
+const fetchDealers = async () => {
+  setLoadingDealers(true);
+  try {
+    console.log("📡 B/D Tablosu İndiriliyor...");
+    const response = await fetch(`https://isletmem.online/asset/api/my-dealers?username=${user.username}`);
+    const data = await response.json();
+    
+    // Loglarımızı görelim
+    console.log(`✅ API'den Gelen B/D Sayısı: ${data.length}`);
+    console.log(JSON.stringify(data, null, 2));
+
+    // 1. Veriyi SQLite'a o kullanıcının adıyla işle (Parametreli)
+    await saveDealersToLocal(data, user.username);
+    
+    // 2. Sadece o kullanıcıya ait olanları SQLite'dan geri çek (Parametreli)
+    const filteredData = await getLocalDealers(user.username);
+    
+    // 3. State'i güncelle
+    setDealers(filteredData);
+    
+    Alert.alert('Başarılı', 'Veriler cihazla senkronize edildi.');
+  } catch (error) {
+    console.log("❌ Sync Hatası:", error);
+    Alert.alert('Hata', 'İnternet bağlantısını kontrol edin.');
+  } finally {
+    setLoadingDealers(false);
+  }
+};
 
   const loadCustomersByDealer = async (dealer) => {
     setSelectedDealer(dealer);
