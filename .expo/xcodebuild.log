@@ -1,0 +1,115 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project /Users/cemintepe/Desktop/AssetMobil/ios/AssetMobil.xcodeproj -configuration Debug -scheme AssetMobil -destination id=7912B646-2C6A-4EB4-9476-8658CD5AAA32
+
+User defaults from command line:
+    IDEPackageSupportUseBuiltinSCM = YES
+
+Prepare packages
+
+Computing target dependency graph and provisioning inputs
+
+Create build description
+Build description signature: 223d29fbbbf060da6864575a55ea87d5
+Build description path: /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/XCBuildData/223d29fbbbf060da6864575a55ea87d5-desc.xcbuild
+
+note: Building targets in dependency order
+CreateBuildDirectory /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Products
+    cd /Users/cemintepe/Desktop/AssetMobil/ios/AssetMobil.xcodeproj
+    builtin-create-build-directory /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Products
+
+CreateBuildDirectory /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex
+    cd /Users/cemintepe/Desktop/AssetMobil/ios/AssetMobil.xcodeproj
+    builtin-create-build-directory /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex
+
+CreateBuildDirectory /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Products/Debug-iphonesimulator
+    cd /Users/cemintepe/Desktop/AssetMobil/ios/AssetMobil.xcodeproj
+    builtin-create-build-directory /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Products/Debug-iphonesimulator
+
+CreateBuildDirectory /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/EagerLinkingTBDs
+    cd /Users/cemintepe/Desktop/AssetMobil/ios/AssetMobil.xcodeproj
+    builtin-create-build-directory /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/EagerLinkingTBDs
+
+note: Run script build phase 'Bundle React Native code and images' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'AssetMobil' from project 'AssetMobil')
+MkDir /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Products/Debug-iphonesimulator/AssetMobil.app (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    /bin/mkdir -p /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Products/Debug-iphonesimulator/AssetMobil.app
+
+WriteAuxiliaryFile /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/DerivedSources/Entitlements-Simulated.plist (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    write-file /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/DerivedSources/Entitlements-Simulated.plist
+
+WriteAuxiliaryFile /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/DerivedSources/Entitlements.plist (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    write-file /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/DerivedSources/Entitlements.plist
+
+ProcessProductPackaging /Users/cemintepe/Desktop/AssetMobil/ios/AssetMobil/AssetMobil.entitlements /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.app-Simulated.xcent (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "FAKETEAMID.com.anonymous.AssetMobil";
+}
+    
+    builtin-productPackagingUtility /Users/cemintepe/Desktop/AssetMobil/ios/AssetMobil/AssetMobil.entitlements -entitlements -format xml -o /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.app-Simulated.xcent
+
+ProcessProductPackaging /Users/cemintepe/Desktop/AssetMobil/ios/AssetMobil/AssetMobil.entitlements /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.app.xcent (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    
+    Entitlements:
+    
+    {
+    "com.apple.security.get-task-allow" = 1;
+}
+    
+    builtin-productPackagingUtility /Users/cemintepe/Desktop/AssetMobil/ios/AssetMobil/AssetMobil.entitlements -entitlements -format xml -o /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.app.xcent
+
+ProcessProductPackagingDER /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.app.xcent /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.app.xcent.der (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    /usr/bin/derq query -f xml -i /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.app.xcent -o /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.app.xcent.der --raw
+
+ProcessProductPackagingDER /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.app-Simulated.xcent /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.app-Simulated.xcent.der (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    /usr/bin/derq query -f xml -i /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.app-Simulated.xcent -o /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.app-Simulated.xcent.der --raw
+
+WriteAuxiliaryFile /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/all-product-headers.yaml (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    write-file /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/all-product-headers.yaml
+
+WriteAuxiliaryFile /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil-project-headers.hmap (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    write-file /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil-project-headers.hmap
+
+WriteAuxiliaryFile /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.hmap (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    write-file /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil.hmap
+
+WriteAuxiliaryFile /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil-own-target-headers.hmap (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    write-file /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil-generated-files.hmap (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    write-file /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil-generated-files.hmap
+
+WriteAuxiliaryFile /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil-all-target-headers.hmap (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    write-file /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil-all-non-framework-target-headers.hmap (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    write-file /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/AssetMobil-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/Script-08A4A3CD28434E44B6B9DE2E.sh (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    write-file /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/Script-08A4A3CD28434E44B6B9DE2E.sh
+
+PhaseScriptExecution [CP]\ Check\ Pods\ Manifest.lock /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/Script-08A4A3CD28434E44B6B9DE2E.sh (in target 'AssetMobil' from project 'AssetMobil')
+    cd /Users/cemintepe/Desktop/AssetMobil/ios
+    /bin/sh -c /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/Script-08A4A3CD28434E44B6B9DE2E.sh
+diff: /Podfile.lock: No such file or directory
+diff: /Manifest.lock: No such file or directory
+error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
+
+build session not created after 15 seconds - still waiting
+build session not created after 30 seconds - still waiting

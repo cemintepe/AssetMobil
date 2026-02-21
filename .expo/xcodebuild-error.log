@@ -1,0 +1,6 @@
+** BUILD FAILED **
+
+
+The following build commands failed:
+	PhaseScriptExecution [CP]\ Check\ Pods\ Manifest.lock /Users/cemintepe/Library/Developer/Xcode/DerivedData/AssetMobil-dnqcmtumklefyyblukbivmhkelqz/Build/Intermediates.noindex/AssetMobil.build/Debug-iphonesimulator/AssetMobil.build/Script-08A4A3CD28434E44B6B9DE2E.sh (in target 'AssetMobil' from project 'AssetMobil')
+(1 failure)
