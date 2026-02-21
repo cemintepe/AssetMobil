@@ -4,6 +4,7 @@ import {
   FlatList, ActivityIndicator, Alert, SafeAreaView, Modal 
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { initDB, saveDealersToLocal, saveCustomersToLocal, getLocalDealers, getLocalCustomersByDealer } from './Database';
 
 export default function StDashboard({ user, onLogout, onSelectCustomer }) {
   const [dealers, setDealers] = useState([]);
@@ -25,38 +26,82 @@ export default function StDashboard({ user, onLogout, onSelectCustomer }) {
   const { day, month } = getCurrentDate(); 
 
   // Otomatik yükleme kapalı, sadece butonla tetiklenecek
-  useEffect(() => {
-  }, []);
-
-  const fetchDealers = async () => {
-    setLoadingDealers(true);
-    try {
-      console.log("B/D Tablosu İndiriliyor...");
-      const response = await fetch(`https://isletmem.online/asset/api/my-dealers?username=${user.username}`);
-      const data = await response.json();
-      console.log(`B/D'ler İndirildi: ${data.length}`);
-      console.log(JSON.stringify(data, null, 2));
-      setDealers(data);
-      // Başarılı olduğunda kullanıcıya ufak bir bildirim verebiliriz
-      if(data.length > 0) {
-        Alert.alert('Başarılı', `${data.length} bayi güncellendi.`);
-      }
-    } catch (error) {
-      Alert.alert('Hata', 'Veriler sunucudan alınamadı.');
-    } finally {
-      setLoadingDealers(false);
+useEffect(() => {
+  const loadInitialData = async () => {
+    // 1. Önce DB'yi hazırla (Tablo yoksa oluşturur)
+    await initDB();
+    
+    // 2. Login olan bu kullanıcıya ait yerel veriyi kontrol et
+    const localData = await getLocalDealers(user.username);
+    
+    if (localData && localData.length > 0) {
+      // Veri varsa state'e doldur, kullanıcı direkt listeyi görsün
+      setDealers(localData);
+      console.log(`📂 ${user.username} için yerel veriler yüklendi: ${localData.length} adet.`);
+    } else {
+      // Veri yoksa sadece log bas, kullanıcı SYNC butonuna basacaktır
+      console.log(`ℹ️ ${user.username} için henüz yerel veri yok.`);
     }
   };
+
+  loadInitialData();
+}, [user.username]); // Kullanıcı değişirse (logout/login) tekrar kontrol et
+
+const fetchDealers = async () => {
+  setLoadingDealers(true);
+  try {
+    console.log(`🚀 SYNC Başlatıldı: Kullanıcı -> ${user.username}`);
+
+    // 1. Bayileri Çek
+    const dealerRes = await fetch(`https://isletmem.online/asset/api/my-dealers?username=${user.username}`);
+    const dealerData = await dealerRes.json();
+    await saveDealersToLocal(dealerData, user.username);
+    
+    // 2. Müşterileri Çek (Döngü ile)
+    let allCustomers = [];
+    console.log("📦 Bayi bazlı müşteri toplama işlemi başladı...");
+
+    for (const dealer of dealerData) {
+      const custRes = await fetch(`https://isletmem.online/asset/api/my-customers?username=${user.username}&dealer_code=${dealer.dealer_code}`);
+      const custData = await custRes.json();
+      
+      // Log: Hangi bayiden kaç müşteri geldi görelim
+      console.log(`🔹 Bayi: ${dealer.dealer_code} | Gelen Müşteri: ${custData.length}`);
+      
+      allCustomers = [...allCustomers, ...custData];
+    }
+
+    // 3. SQLite'a Topluca Kaydet
+    await saveCustomersToLocal(allCustomers, user.username);
+    
+    // Log: Sonuç özeti
+    console.log("🏁 Senkronizasyon Başarıyla Tamamlandı.");
+    console.log(`📊 Toplam Bayi: ${dealerData.length} | Toplam Müşteri: ${allCustomers.length}`);
+
+    // UI Güncelle
+    const localDealers = await getLocalDealers(user.username);
+    setDealers(localDealers);
+
+    Alert.alert('Senkronizasyon Başarılı', `${allCustomers.length} müşteri cihazınıza indirildi.`);
+    
+  } catch (error) {
+    console.log("❌ SYNC Hatası:", error);
+    Alert.alert('Hata', 'Veriler çekilirken bir sorun oluştu.');
+  } finally {
+    setLoadingDealers(false);
+  }
+};
 
   const loadCustomersByDealer = async (dealer) => {
     setSelectedDealer(dealer);
     setShowDealerModal(false);
     setLoadingCustomers(true);
     try {
-      const response = await fetch(`https://isletmem.online/asset/api/my-customers?username=${user.username}&dealer_code=${dealer.dealer_code}`);
-      const data = await response.json();
+      
+      const data = await getLocalCustomersByDealer(dealer.dealer_code, user.username);
       setCustomers(data);
       setFilteredCustomers(data);
+
     } catch (error) {
       Alert.alert('Hata', 'Müşteri listesi alınamadı');
     } finally {
