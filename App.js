@@ -9,6 +9,7 @@ import ActionSelection from './ActionSelection';
 import JobTypeSelection from './JobTypeSelection';
 import InventorySelection from './InventorySelection';
 import InstallationSummary from './InstallationSummary';
+import TechRequestDetail from './TechRequestDetail';
 
 // DİL SÖZLÜĞÜ
 const translations = {
@@ -69,6 +70,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedJobType, setSelectedJobType] = useState(null);
   const [selectedInventory, setSelectedInventory] = useState(null);
+  const [selectedRequest, setSelectedRequest] = useState(null);
   
   // Dil Durumları
   const [selectedLang, setSelectedLang] = useState('TR');
@@ -229,10 +231,34 @@ return (
       onSelectCustomer={(item) => setSelectedCustomer(item)} 
     />
   );
-
 }
 
-  if (role === 'T') return <TeknisyenDashboard user={user} onLogout={handleLogout} />;
+
+if (role === 'T') {
+  // Eğer detay seçildiyse Detay ekranını göster
+  if (selectedRequest) {
+    return (
+      <TechRequestDetail 
+        request={selectedRequest}
+        onBack={() => setSelectedRequest(null)}
+        onComplete={() => {
+          setSelectedRequest(null);
+          // Burada gerekirse bir yenileme fonksiyonu tetiklenebilir
+        }}
+      />
+    );
+  }
+
+  // Hiçbir şey seçilmediyse Dashboard'u göster (onSelectRequest PROPUNU UNUTMA)
+  return (
+    <TeknisyenDashboard 
+      user={user} 
+      onLogout={handleLogout} 
+      onSelectRequest={(item) => setSelectedRequest(item)} 
+    />
+  );
+}
+
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
