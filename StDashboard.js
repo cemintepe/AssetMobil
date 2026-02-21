@@ -4,6 +4,7 @@ import {
   FlatList, ActivityIndicator, Alert, SafeAreaView, Modal 
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { initDB, saveDealersToLocal, getLocalDealers } from './Database';
 
 export default function StDashboard({ user, onLogout, onSelectCustomer }) {
   const [dealers, setDealers] = useState([]);
@@ -26,6 +27,15 @@ export default function StDashboard({ user, onLogout, onSelectCustomer }) {
 
   // Otomatik yükleme kapalı, sadece butonla tetiklenecek
   useEffect(() => {
+    const setup = async () => {
+      await initDB();
+      const localData = await getLocalDealers();
+      if (localData.length > 0) {
+        setDealers(localData);
+        console.log("SQLite Verileri yüklendi:", localData.length);
+      }
+    };
+    setup();
   }, []);
 
   const fetchDealers = async () => {
@@ -36,13 +46,13 @@ export default function StDashboard({ user, onLogout, onSelectCustomer }) {
       const data = await response.json();
       console.log(`B/D'ler İndirildi: ${data.length}`);
       console.log(JSON.stringify(data, null, 2));
-      setDealers(data);
-      // Başarılı olduğunda kullanıcıya ufak bir bildirim verebiliriz
-      if(data.length > 0) {
-        Alert.alert('Başarılı', `${data.length} bayi güncellendi.`);
-      }
+      await saveDealersToLocal(data);
+      const updatedLocalData = await getLocalDealers();
+      setDealers(updatedLocalData);
+      Alert.alert('Başarılı', 'Veriler cihazla senkronize edildi.');
     } catch (error) {
-      Alert.alert('Hata', 'Veriler sunucudan alınamadı.');
+      console.log("❌ Sync Hatası:", error);
+      Alert.alert('Hata', 'İnternet bağlantısını kontrol edin.');
     } finally {
       setLoadingDealers(false);
     }
