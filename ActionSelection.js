@@ -27,8 +27,8 @@ export default function ActionSelection({ customer, dealer, onBack, onSelectCate
   };
 
   const renderCategory = ({ item }) => {
-    // MVP: Sadece ID'si 1 olan (Soğutucu İşlemleri) aktif, diğerleri "Yakında"
-    const isActive = item.id === 1;
+    // MVP: Sadece ID'si 1 olan (Soğutucu İşlemleri) aktif, Verifikasyon aktif, diğerleri "Yakında"
+    const isActive = item.id === 1 || item.id === 5; 
 
     return (
       <TouchableOpacity 

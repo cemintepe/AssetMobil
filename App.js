@@ -10,6 +10,7 @@ import JobTypeSelection from './JobTypeSelection';
 import InventorySelection from './InventorySelection';
 import InstallationSummary from './InstallationSummary';
 import TechRequestDetail from './TechRequestDetail';
+import VerificationEquipment from './VerificationEquipment'; 
 
 // DİL SÖZLÜĞÜ
 const translations = {
@@ -153,6 +154,18 @@ export default function App() {
 
 if (role === 'ST') {
   // Öncelik: seçili iş türü -> seçili kategori -> seçili müşteri -> dashboard
+
+  if (selectedCategory && selectedCategory.id === 5) {
+      return (
+        <VerificationEquipment 
+          customer={selectedCustomer}
+          dealer={selectedCustomer.dealer_name || selectedCustomer.dealer_code || 'BAYİ'}
+          onBack={() => setSelectedCategory(null)} 
+        />
+      );
+    }
+
+
   if (selectedJobType) {
       if (selectedInventory) {
         return (
@@ -232,6 +245,8 @@ return (
     />
   );
 }
+
+
 
 
 if (role === 'T') {
